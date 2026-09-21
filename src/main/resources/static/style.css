@@ -79,3 +79,8 @@ main > button {
     padding: 10px 20px;
     cursor: pointer;
 }
+.product img {
+    width: 200px;
+    height: 180px;
+    object-fit: contain;
+}
