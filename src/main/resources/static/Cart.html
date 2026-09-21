@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+```
+<h1>🛍️ Online Shopping</h1>
+
+<nav>
+    <a href="home.html">Home</a>
+    <a href="home.html#products">Products</a>
+    <a href="cart.html">Cart 🛒</a>
+    <a href="index.html">Login</a>
+</nav>
+```
+
+</header>
+
+<main>
+
+```
+<h2>🛒 Your Shopping Cart</h2>
+
+<div id="cartItems"></div>
+
+<h2 id="cartTotal">Total: ₹0</h2>
+
+<button onclick="goToCheckout()">
+    Proceed to Checkout
+</button>
+
+<br><br>
+
+<button onclick="clearCart()">
+    Clear Cart
+</button>
+```
+
+</main>
+
+<script src="script.js"></script>
+
+<script>
+    displayCart();
+
+    function displayCart() {
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let cartItems = document.getElementById("cartItems");
+        let cartTotal = document.getElementById("cartTotal");
+
+        cartItems.innerHTML = "";
+
+        if (cart.length === 0) {
+
+            cartItems.innerHTML = "<p>Your cart is empty 🛒</p>";
+            cartTotal.innerText = "Total: ₹0";
+            return;
+        }
+
+        let total = 0;
+
+        cart.forEach((item, index) => {
+
+            let itemTotal = item.price * item.quantity;
+            total += itemTotal;
+
+            cartItems.innerHTML += `
+                <div class="product">
+                    <h3>${item.name}</h3>
+                    <p>Price: ₹${item.price}</p>
+                    <p>Quantity: ${item.quantity}</p>
+                    <p>Subtotal: ₹${itemTotal}</p>
+
+                    <button onclick="removeFromCart(${index})">
+                        Remove
+                    </button>
+                </div>
+            `;
+        });
+
+        cartTotal.innerText = "Total: ₹" + total;
+    }
+
+    function removeFromCart(index) {
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        cart.splice(index, 1);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        displayCart();
+    }
+
+    function clearCart() {
+
+        localStorage.removeItem("cart");
+
+        displayCart();
+    }
+
+    function goToCheckout() {
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+
+        window.location.href = "checkout.html";
+    }
+</script>
+
+</body>
+</html>
