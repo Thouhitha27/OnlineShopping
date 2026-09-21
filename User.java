@@ -1,16 +1,28 @@
 public class User {
 
-    String name;
-    String email;
-    String password;
+    private String name;
+    private String email;
+    private String password;
 
-    User(String name, String email, String password) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    void displayUser() {
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void displayUser() {
         System.out.println("Name: " + name);
         System.out.println("Email: " + email);
     }

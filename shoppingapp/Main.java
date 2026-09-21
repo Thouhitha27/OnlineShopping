@@ -7,7 +7,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         // User Registration
-        System.out.println("===== REGISTER =====");
+        System.out.println("===== ONLINE SHOPPING =====");
 
         System.out.print("Enter Name: ");
         String name = sc.nextLine();
@@ -20,7 +20,7 @@ public class Main {
 
         User user = new User(name, email, password);
 
-        System.out.println("\nRegistration successful!");
+        System.out.println("\nRegistration Successful!");
 
         // Login
         System.out.println("\n===== LOGIN =====");
@@ -31,10 +31,10 @@ public class Main {
         System.out.print("Enter Password: ");
         String loginPassword = sc.nextLine();
 
-        if (loginEmail.equals(user.email) &&
-            loginPassword.equals(user.password)) {
+        if (user.getEmail().equals(loginEmail)
+                && user.getPassword().equals(loginPassword)) {
 
-            System.out.println("\nLogin successful!");
+            System.out.println("Login Successful!");
 
             // Products
             Product laptop = new Product("Laptop", 50000);
@@ -46,56 +46,44 @@ public class Main {
             System.out.println("2. Mobile - Rs.20000");
             System.out.println("3. Headphone - Rs.2000");
 
-            System.out.print("Enter product number: ");
+            System.out.print("\nEnter Product Number: ");
             int choice = sc.nextInt();
+
+            System.out.print("Enter Quantity: ");
+            int quantity = sc.nextInt();
 
             Product selectedProduct = null;
 
             if (choice == 1) {
                 selectedProduct = laptop;
-            } 
-            else if (choice == 2) {
+            } else if (choice == 2) {
                 selectedProduct = mobile;
-            } 
-            else if (choice == 3) {
+            } else if (choice == 3) {
                 selectedProduct = headphone;
-            } 
-            else {
-                System.out.println("Invalid product!");
+            } else {
+                System.out.println("Invalid Product!");
+                sc.close();
+                return;
             }
 
-            if (selectedProduct != null) {
+            // Cart
+            Cart cart = new Cart();
+            cart.addProduct(selectedProduct, quantity);
 
-                System.out.print("Enter quantity: ");
-                int quantity = sc.nextInt();
+            cart.displayCart();
 
-                if (quantity > 0) {
+            // Order
+            Order order = new Order(selectedProduct, quantity);
+            order.placeOrder();
 
-                    // Cart
-                    Cart cart = new Cart();
-                    cart.addProduct(selectedProduct, quantity);
-                    cart.displayCart();
+            // Payment
+            int total = selectedProduct.getPrice() * quantity;
 
-                    // Order
-                    Order order = new Order(selectedProduct, quantity);
-                    order.placeOrder();
+            Payment payment = new Payment(total);
+            payment.makePayment();
 
-                    // Payment
-                    int total = selectedProduct.price * quantity;
-
-                    Payment payment = new Payment(total);
-                    payment.makePayment();
-
-                } 
-                else {
-                    System.out.println("Invalid quantity!");
-                }
-            }
-
-        } 
-        else {
-
-            System.out.println("\nInvalid email or password!");
+        } else {
+            System.out.println("Invalid Email or Password!");
         }
 
         sc.close();
