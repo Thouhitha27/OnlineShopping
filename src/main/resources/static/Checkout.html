@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Checkout - Online Shopping</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+```
+<h1>🛍️ Online Shopping</h1>
+
+<nav>
+    <a href="home.html">Home</a>
+    <a href="home.html#products">Products</a>
+    <a href="cart.html">Cart 🛒</a>
+    <a href="index.html">Login</a>
+</nav>
+```
+
+</header>
+
+<main>
+
+```
+<h2>💳 Checkout</h2>
+
+<div class="checkout-container">
+
+    <h3>Customer Details</h3>
+
+    <label>Full Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Enter your email">
+
+    <label>Phone Number</label>
+    <input type="tel" id="phone" placeholder="Enter your phone number">
+
+    <label>Address</label>
+    <textarea id="address" placeholder="Enter your address"></textarea>
+
+    <h3>Order Summary</h3>
+
+    <div id="checkoutItems"></div>
+
+    <h2 id="checkoutTotal">Total: ₹0</h2>
+
+    <button onclick="placeOrder()">
+        Place Order
+    </button>
+
+    <br><br>
+
+    <button onclick="goBackToCart()">
+        Back to Cart
+    </button>
+
+</div>
+```
+
+</main>
+
+<script>
+
+    displayCheckout();
+
+    function displayCheckout() {
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let checkoutItems = document.getElementById("checkoutItems");
+        let checkoutTotal = document.getElementById("checkoutTotal");
+
+        checkoutItems.innerHTML = "";
+
+        if (cart.length === 0) {
+            checkoutItems.innerHTML = "<p>Your cart is empty 🛒</p>";
+            checkoutTotal.innerText = "Total: ₹0";
+            return;
+        }
+
+        let total = 0;
+
+        cart.forEach(item => {
+
+            let itemTotal = item.price * item.quantity;
+
+            total += itemTotal;
+
+            checkoutItems.innerHTML += `
+                <p>
+                    <strong>${item.name}</strong>
+                    × ${item.quantity}
+                    = ₹${itemTotal}
+                </p>
+            `;
+        });
+
+        checkoutTotal.innerText = "Total: ₹" + total;
+    }
+
+
+    function placeOrder() {
+
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let phone = document.getElementById("phone").value;
+        let address = document.getElementById("address").value;
+
+        if (name === "" || email === "" || phone === "" || address === "") {
+
+            alert("Please fill all customer details.");
+            return;
+        }
+
+        alert("Order placed successfully! 🎉");
+
+        localStorage.removeItem("cart");
+
+        window.location.href = "home.html";
+    }
+
+
+    function goBackToCart() {
+
+        window.location.href = "cart.html";
+    }
+
+</script>
+
+</body>
+
+</html>
